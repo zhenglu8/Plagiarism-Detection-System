@@ -4,7 +4,7 @@ from tkinter import ttk
 window = Tk()
 window.title("Plagiarism Detection System")
 canvas = Canvas(window, width=600, height=400)
-canvas.grid(columnspan=2, rowspan=4)
+canvas.grid(columnspan=2, rowspan=6)
 
 # Define a clear function to clear all entries
 
