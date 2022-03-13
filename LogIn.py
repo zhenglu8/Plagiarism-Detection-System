@@ -17,8 +17,15 @@ def clear():
 
 
 def login():
-    window.destroy()
-    import MainPage
+	user = entry1.get()
+	password = entry2.get()
+	try: 
+		pl.login(user,password)
+		window.destroy()
+		import MainPage
+	except:
+		#switch with tkinter display of failed login
+		print("login failed?")
 
 # Define a signup function to move to signup page
 
