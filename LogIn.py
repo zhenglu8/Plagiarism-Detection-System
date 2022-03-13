@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import ttk
+import pyrelog as pl
+
 
 window = Tk()
 window.title("Plagiarism Detection System")
