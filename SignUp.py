@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+import pyrelog as pl
 
 window = Tk()
 window.title("Plagiarism Detection System")
@@ -10,8 +11,15 @@ canvas.grid(columnspan=2, rowspan=4)
 
 
 def signup():
-    window.destroy()
-    import LogIn
+	user = entry1.get()
+	password = entry2.get()
+	try:
+		pl.signup(user,password)
+		window.destroy()
+		import LogIn
+	except:
+		#switch with tkinter display of failed login (password under 6 character, existing email)
+		print("invalid login information")
 
 
 label1 = Label(window, text="Username", font="Raleway")
