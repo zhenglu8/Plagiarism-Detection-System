@@ -34,4 +34,9 @@ button3 = Button(window, text="Compare", height=2, width=20,
                  font="Raleway", bg="#20bebe", fg="white")
 button3.grid(row=2, column=0)
 
+# Exit button
+button4 = Button(window, text="Exit", height=2, width=20,
+                 font="Raleway", bg="#20bebe", fg="white", command=lambda: window.destroy())
+button4.grid(row=3, column=0)
+
 window.mainloop()
