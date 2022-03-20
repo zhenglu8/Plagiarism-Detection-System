@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 import pyrelog as pl
+from selenium import webdriver
+import webbrowser
 
 window = Tk()
 window.title("Plagiarism Detection System")
@@ -18,15 +20,15 @@ def clear():
 
 
 def login():
-	user = entry1.get()
-	password = entry2.get()
-	try: 
-		pl.login(user,password)
-		window.destroy()
-		import MainPage
-	except:
-		#switch with tkinter display of failed login
-		print("login failed?")
+    user = entry1.get()
+    password = entry2.get()
+    try:
+        pl.login(user, password)
+        window.destroy()
+        import MainPage
+    except:
+        # switch with tkinter display of failed login
+        print("login failed?")
 
 # Define a signup function to move to signup page
 
@@ -34,6 +36,20 @@ def login():
 def signup():
     window.destroy()
     import SignUp
+
+
+def facebook():
+    url = 'https://www.facebook.com/'
+    chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+
+    webbrowser.get(chrome_path).open(url)
+
+
+def google():
+    url = 'https://google.com/'
+    chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+
+    webbrowser.get(chrome_path).open(url)
 
 
 label1 = Label(window, text="Username", font="Raleway")
@@ -61,11 +77,11 @@ button2 = Button(window, text="Signup", height=2, width=12,
 button2.grid(row=3, column=0)
 
 button3 = Button(window, text="Google Login", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white")
+                 font="Raleway", bg="#20bebe", fg="white", command=google)
 button3.grid(row=2, column=1)
 
 button4 = Button(window, text="Facebook Login", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white")
+                 font="Raleway", bg="#20bebe", fg="white", command=facebook)
 button4.grid(row=3, column=1)
 
 # Clear All button
