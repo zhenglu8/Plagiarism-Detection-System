@@ -7,6 +7,8 @@ import pysimilar as py
 ##                   PYRECHECK CLASS                   ##
 # Pyrecheck expects plaintext file extension types only #
 ##                                                     ##
+
+
 class pyrecheck:
     # Configuration for Fireconfig and the app instance itself
     app = None
@@ -15,7 +17,7 @@ class pyrecheck:
     # Storage instance
     storage = None
 
-    # File we're checking against the one we have to check 
+    # File we're checking against the one we have to check
     file_against = None
     file_check = None
 
@@ -30,11 +32,11 @@ class pyrecheck:
     ## Connect to the firebase config ##
     def connect(self):
         self.app = pyrebase.initialize_app(self.firebaseConfig)
-    
+
     ## Get the app instance ##
     def get_instance(self):
         return self.app
-    
+
     ## Get the config instance ##
     def get_config(self):
         return self.firebaseConfig
@@ -46,7 +48,7 @@ class pyrecheck:
             print("-- Trying to connect to the storage --")
             self.storage = self.app.storage()
             print("Connected to storage!")
-        except Exception as e: 
+        except Exception as e:
             print("Please make sure you auth first using the config")
             print(e)
 
@@ -62,12 +64,14 @@ class pyrecheck:
             print(e)
 
     ## Get a list of all the files checking against in the DB and compare the files ##
-    def compare_against_files(self): 
+    def compare_against_files(self):
         files_check = self.storage.list_files()
-        
+
         try:
             for file in files_check:
-                print(file.name)
+                if('/' in file.name):
+                    split_by_path = file.name.split('/')
+                    file.name = split_by_path[len(split_by_path) - 1]
 
                 try:
                     if('.' not in file.name):
@@ -79,63 +83,66 @@ class pyrecheck:
 
                     file.download_to_filename(self.file_against)
 
-                except Exception: 
+                except Exception:
+                    print(e)
                     continue
 
                 self.__compare_files()
                 os.remove("./" + self.file_against)
-        except Exception as e: 
+        except Exception as e:
             print(e)
 
     ## PRIVATE ##
     ## Compare files using pysimilar method compare ##
     def __compare_files(self):
         try:
-            curr_check = compare(self.file_check, self.file_against, isfile=True)
+            curr_check = compare(
+                self.file_check, self.file_against, isfile=True)
             print(curr_check)
             if(curr_check > self.comparison_latest):
                 self.comparison_latest = curr_check
-        except Exception as e: 
+        except Exception as e:
             print(e)
 
     ## Return the internal result counter ##
     def return_results(self):
         return self.comparison_latest
 
+
 ###################################
 ### Example run using pyrecheck ###
 ###################################
 # firebaseConfig = {'apiKey': "AIzaSyAEp8_HarY6xSVZEgiXiko67ntgVuCXmwg",
-#                 'authDomain': "integrationproject-8160f.firebaseapp.com",
-#                 'databaseURL': "https://integrationproject-8160f-default-rtdb.firebaseio.com/",
-#                 'projectId': "integrationproject-8160f",
-#                 'storageBucket': "integrationproject-8160f.appspot.com",
-#                 'messagingSenderId': "1053011153629",
-#                 'appId': "1:1053011153629:web:b1f1c1a15cb213c2f88134",
-#                 'measurementId': "G-9T553ECDE0",
-#                 'serviceAccount': "./integrationproject-8160f-9749c3e42fc7.json"}
+#                  'authDomain': "integrationproject-8160f.firebaseapp.com",
+#                  'databaseURL': "https://integrationproject-8160f-default-rtdb.firebaseio.com/",
+#                  'projectId': "integrationproject-8160f",
+#                  'storageBucket': "integrationproject-8160f.appspot.com",
+#                  'messagingSenderId': "1053011153629",
+#                  'appId': "1:1053011153629:web:b1f1c1a15cb213c2f88134",
+#                  'measurementId': "G-9T553ECDE0",
+#                  'serviceAccount': "./serviceaccountforalgorithm.json"}
 
-## Running the module in order ## 
+## Running the module in order ##
 # Create object with the text file we're comparing against
-# checking = pyrecheck("doc_test.txt", firebaseConfig)
+#checking = pyrecheck("docs/selected_file.txt", firebaseConfig)
 
 # # Connect to firebase
 # checking.connect()
 
-# # DEBUG # 
+# # DEBUG #
 # # Get the instance
-# # Get the config 
+# # Get the config
 # print(checking.get_instance())
 # print(checking.get_config())
 
 # # Connect to the storage
 # # Connect to the database
 # checking.connect_storage()
-# # checking.connect_database()
+# checking.connect_database()
 
 # # Compare against all the files in the storage
-# print("-- Check against database --")
+#print("-- Check against database --")
 # checking.compare_against_files()
 
-# # Return the results 
+# # Return the results
 # print(checking.return_results())
