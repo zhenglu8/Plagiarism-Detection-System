@@ -52,10 +52,15 @@ def google():
     webbrowser.get(chrome_path).open(url)
 
 
-label1 = Label(window, text="Username", font="Raleway")
+def aboutus():
+    window.destroy()
+    import AboutUs
+
+
+label1 = Label(window, text="Username", font=("Raleway", 15))
 label1.grid(row=0, column=0)
 
-label2 = Label(window, text="Password", font="Raleway")
+label2 = Label(window, text="Password", font=("Raleway", 15))
 label2.grid(row=1, column=0)
 
 username_text = StringVar()
@@ -89,10 +94,15 @@ button5 = Button(window, text="Clear All", height=2, width=12,
                  font="Raleway", bg="#20bebe", fg="white", command=clear)
 button5.grid(row=4, column=0)
 
+# About Us button
+button7 = Button(window, text="About Us", height=2, width=12,
+                 font="Raleway", bg="#20bebe", fg="white", command=aboutus)
+button7.grid(row=4, column=1)
+
 # Exit button
 button6 = Button(window, text="Exit", height=2, width=12,
                  font="Raleway", bg="#20bebe", fg="white", command=lambda: window.destroy())
-button6.grid(row=4, column=1)
+button6.grid(row=5, column=0)
 
 
 window.mainloop()
