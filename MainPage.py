@@ -7,23 +7,24 @@ import pyrelog as pl
 import pysimilaralgorithm as pa
 import os
 import pyrebase
+from PIL import Image, ImageTk
 
 firebaseConfig = {
-  'apiKey': "AIzaSyAEp8_HarY6xSVZEgiXiko67ntgVuCXmwg",
-  'authDomain': "integrationproject-8160f.firebaseapp.com",
-  'databaseURL': "https://integrationproject-8160f-default-rtdb.firebaseio.com/",
-  'projectId': "integrationproject-8160f",
-  'storageBucket': "integrationproject-8160f.appspot.com",
-  'messagingSenderId': "1053011153629",
-  'appId': "1:1053011153629:web:b1f1c1a15cb213c2f88134",
-  'measurementId': "G-9T553ECDE0"
-};
+    'apiKey': "AIzaSyAEp8_HarY6xSVZEgiXiko67ntgVuCXmwg",
+    'authDomain': "integrationproject-8160f.firebaseapp.com",
+    'databaseURL': "https://integrationproject-8160f-default-rtdb.firebaseio.com/",
+    'projectId': "integrationproject-8160f",
+    'storageBucket': "integrationproject-8160f.appspot.com",
+    'messagingSenderId': "1053011153629",
+    'appId': "1:1053011153629:web:b1f1c1a15cb213c2f88134",
+    'measurementId': "G-9T553ECDE0"
+}
 
 
-firebase=pyrebase.initialize_app(firebaseConfig)
+firebase = pyrebase.initialize_app(firebaseConfig)
 
-db=firebase.database()
-storage=firebase.storage()
+db = firebase.database()
+storage = firebase.storage()
 
 window = Tk()
 window.title("Plagiarism Detection System")
@@ -47,7 +48,6 @@ def browsefiles():
                                                      ("all files",
                                                       "*.*")))
     '''
-
 
     file = askopenfile(mode='r', filetypes=[
         ('Txt files', '*.txt'), ('all files', '*.*')])
@@ -74,7 +74,20 @@ def browsefiles():
 
     # Document#1 filename
     label1 = Label(window, text=file.name)
-    label1.grid(row=1, column=0)
+    label1.grid(row=2, column=0)
+
+
+def upload():
+    file = askopenfile(mode='r', filetypes=[
+        ('Txt files', '*.txt'), ('all files', '*.*')])
+
+    if file is not None:
+        content = file.read()
+
+        storage.child(file.name).put(file.name)
+        url = storage.child(file.name).get_url(None)
+        data = {"url": url}
+        db.child("documents").push(data)
 
 
 def compare():
@@ -98,21 +111,31 @@ def exit():
     window.destroy()
 
 
+logo = Image.open('logo.png')
+test = ImageTk.PhotoImage(logo)
+
+label0 = Label(image=test)
+label0.image = test
+label0.grid(row=0, columnspan=2)
+
 # Select Document#1 button
-button1 = Button(window, text="Select Document#1", height=2, width=20,
+button1 = Button(window, text="Select Document", height=2, width=20,
                  font="Raleway", bg="#20bebe", fg="white", command=browsefiles)
-button1.grid(row=0, column=0)
+button1.grid(row=1, column=0)
 
 # Select Document#2 button
+button2 = Button(window, text="Upload Document", height=2, width=20,
+                 font="Raleway", bg="#20bebe", fg="white", command=upload)
+button2.grid(row=3, column=0)
 
 # Compare button
 button3 = Button(window, text="Compare", height=2, width=20,
                  font="Raleway", bg="#20bebe", fg="white", command=compare)
-button3.grid(row=0, column=1)
+button3.grid(row=1, column=1)
 
 # Exit button
 button4 = Button(window, text="Exit", height=2, width=20,
                  font="Raleway", bg="#20bebe", fg="white", command=exit)
-button4.grid(row=2, column=1)
+button4.grid(row=3, column=1)
 
 window.mainloop()
