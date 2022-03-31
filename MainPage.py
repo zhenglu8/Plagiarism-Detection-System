@@ -6,6 +6,24 @@ from tkinter.messagebox import showinfo
 import pyrelog as pl
 import pysimilaralgorithm as pa
 import os
+import pyrebase
+
+firebaseConfig = {
+  'apiKey': "AIzaSyAEp8_HarY6xSVZEgiXiko67ntgVuCXmwg",
+  'authDomain': "integrationproject-8160f.firebaseapp.com",
+  'databaseURL': "https://integrationproject-8160f-default-rtdb.firebaseio.com/",
+  'projectId': "integrationproject-8160f",
+  'storageBucket': "integrationproject-8160f.appspot.com",
+  'messagingSenderId': "1053011153629",
+  'appId': "1:1053011153629:web:b1f1c1a15cb213c2f88134",
+  'measurementId': "G-9T553ECDE0"
+};
+
+
+firebase=pyrebase.initialize_app(firebaseConfig)
+
+db=firebase.database()
+storage=firebase.storage()
 
 window = Tk()
 window.title("Plagiarism Detection System")
@@ -30,12 +48,18 @@ def browsefiles():
                                                       "*.*")))
     '''
 
+
     file = askopenfile(mode='r', filetypes=[
         ('Txt files', '*.txt'), ('all files', '*.*')])
 
     if file is not None:
         content = file.read()
         print(content)
+
+        storage.child(file.name).put(file.name)
+        url = storage.child(file.name).get_url(None)
+        data = {"url": url}
+        db.child("documents").push(data)
 
         try:
             with open('docs/selected_file.txt', 'w') as f:
