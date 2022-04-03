@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showinfo, showwarning
 import pyrelog as pl
 import pysimilaralgorithm as pa
 import os
@@ -55,12 +55,12 @@ def browsefiles():
     if file is not None:
         content = file.read()
         print(content)
-
+        '''
         storage.child(file.name).put(file.name)
         url = storage.child(file.name).get_url(None)
         data = {"url": url}
         db.child("documents").push(data)
-
+        '''
         try:
             with open('docs/selected_file.txt', 'w') as f:
                 f.write(content)
@@ -69,7 +69,7 @@ def browsefiles():
 
     showinfo(
         title='Selected File',
-        message=file.name
+        message="The " + file.name + " is successfully selected"
     )
 
     # Document#1 filename
@@ -100,6 +100,17 @@ def compare():
 
     checking.compare_against_files()
     print(checking.return_results())
+
+    if checking.return_results() >= 0.75:
+        showwarning(
+            title='Similarity Score',
+            message="The similarity socre is "+str(checking.return_results())
+        )
+    else:
+        showinfo(
+            title='Similarity Score',
+            message="The similarity socre is "+str(checking.return_results())
+        )
 
 
 def exit():
