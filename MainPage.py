@@ -104,12 +104,14 @@ def compare():
     if checking.return_results() >= 0.75:
         showwarning(
             title='Similarity Score',
-            message="The similarity socre is "+str(checking.return_results())
+            message="The similarity score is " +
+            str(round(checking.return_results()*100)) + " %"
         )
     else:
         showinfo(
             title='Similarity Score',
-            message="The similarity socre is "+str(checking.return_results())
+            message="The similarity score is " +
+            str(round(checking.return_results()*100)) + " %"
         )
 
 

@@ -2,7 +2,7 @@ import pyrebase
 
 # Configure and Connext to Firebase
 
-firebaseConfig = {'apiKey': "",
+firebaseConfig = {'apiKey': "AIzaSyAEp8_HarY6xSVZEgiXiko67ntgVuCXmwg",
                   'authDomain': "integrationproject-8160f.firebaseapp.com",
                   'databaseURL': "https://integrationproject-8160f-default-rtdb.firebaseio.com",
                   'projectId': "integrationproject-8160f",

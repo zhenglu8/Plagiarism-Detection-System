@@ -1,18 +1,26 @@
 from tkinter import *
-from tkinter import ttk
 import pyrelog as pl
 
-window = Tk()
-window.title("Plagiarism Detection System")
-canvas = Canvas(window, width=600, height=300)
-canvas.grid(columnspan=2, rowspan=4)
 
-# Define a new function to move to login page
+window = Tk()
+
+window.geometry("753x464")
+window.configure(bg="#ffffff")
+window.title("Plagiarism Detection System")
+canvas = Canvas(
+    window,
+    bg="#ffffff",
+    height=464,
+    width=753,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge")
+canvas.place(x=0, y=0)
 
 
 def signup():
-    user = entry1.get()
-    password = entry2.get()
+    user = entry0.get()
+    password = entry1.get()
     try:
         pl.signup(user, password)
         window.destroy()
@@ -23,8 +31,8 @@ def signup():
 
 
 def clear():
+    entry0.delete(0, END)
     entry1.delete(0, END)
-    entry2.delete(0, END)
 
 
 def back():
@@ -32,39 +40,103 @@ def back():
     import LogIn
 
 
-label1 = Label(window, text="Username", font=("Raleway", 15))
-label1.grid(row=0, column=0)
+background_img = PhotoImage(file=f"SignupImages/background.png")
+background = canvas.create_image(
+    323.5, 232.0,
+    image=background_img)
 
-label2 = Label(window, text="Password", font=("Raleway", 15))
-label2.grid(row=1, column=0)
+entry0_img = PhotoImage(file=f"SignupImages/img_textBox0.png")
+entry0_bg = canvas.create_image(
+    564.0, 160.5,
+    image=entry0_img)
 
-username_text = StringVar()
-entry1 = Entry(window, textvariable=username_text)
-entry1.grid(row=0, column=1)
+entry0 = Entry(
+    bd=0,
+    bg="#dadada",
+    highlightthickness=0)
 
-password_text = StringVar()
-entry2 = Entry(window, textvariable=password_text)
-entry2.grid(row=1, column=1)
+entry0.place(
+    x=464.5, y=142,
+    width=199.0,
+    height=35)
 
-# Sign up button
-button1 = Button(window, text="Signup", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=signup)
-button1.grid(row=2, column=0)
+entry1_img = PhotoImage(file=f"SignupImages/img_textBox1.png")
+entry1_bg = canvas.create_image(
+    564.0, 253.5,
+    image=entry1_img)
 
-# Exit button
-button2 = Button(window, text="Back", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=back)
-button2.grid(row=2, column=1)
-
-# Exit button
-button3 = Button(window, text="Clear All", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=clear)
-button3.grid(row=3, column=0)
-
-# Exit button
-button4 = Button(window, text="Exit", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=lambda: window.destroy())
-button4.grid(row=3, column=1)
+entry1 = Entry(
+    bd=0,
+    bg="#dadada",
+    highlightthickness=0)
+entry1.insert(0, 'Six Characters Minimal')
+entry1.place(
+    x=464.5, y=235,
+    width=199.0,
+    height=35)
 
 
+def on_click(event):
+    entry1.configure(state=NORMAL)
+    entry1.delete(0, END)
+
+    # make the callback only work once
+    entry1.unbind('<Button-1>', on_click_id)
+
+
+on_click_id = entry1.bind('<Button-1>', on_click)
+
+img0 = PhotoImage(file=f"SignupImages/img0.png")
+b0 = Button(
+    image=img0,
+    borderwidth=0,
+    highlightthickness=0,
+    command=signup,
+    relief="flat")
+
+b0.place(
+    x=446, y=305,
+    width=106,
+    height=41)
+
+img1 = PhotoImage(file=f"SignupImages/img1.png")
+b1 = Button(
+    image=img1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=clear,
+    relief="flat")
+
+b1.place(
+    x=446, y=367,
+    width=106,
+    height=41)
+
+img2 = PhotoImage(file=f"SignupImages/img2.png")
+b2 = Button(
+    image=img2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=back,
+    relief="flat")
+
+b2.place(
+    x=585, y=305,
+    width=106,
+    height=41)
+
+img3 = PhotoImage(file=f"SignupImages/img3.png")
+b3 = Button(
+    image=img3,
+    borderwidth=0,
+    highlightthickness=0,
+    command=window.destroy,
+    relief="flat")
+
+b3.place(
+    x=585, y=367,
+    width=106,
+    height=41)
+
+window.resizable(False, False)
 window.mainloop()

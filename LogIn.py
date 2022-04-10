@@ -1,28 +1,34 @@
 from tkinter import *
-from tkinter import ttk
 import pyrelog as pl
-from selenium import webdriver
 import webbrowser
-from PIL import Image, ImageTk
+
 
 window = Tk()
-window.title("Plagiarism Detection System")
-canvas = Canvas(window, width=700, height=600)
-canvas.grid(columnspan=2, rowspan=6)
 
-# Define a clear function to clear all entries
+window.geometry("753x464")
+window.configure(bg="#ffffff")
+window.title("Plagiarism Detection System")
+canvas = Canvas(
+    window,
+    bg="#ffffff",
+    height=464,
+    width=753,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge")
+canvas.place(x=0, y=0)
 
 
 def clear():
+    entry0.delete(0, END)
     entry1.delete(0, END)
-    entry2.delete(0, END)
 
 # Define a login function to move to main page
 
 
 def login():
-    user = entry1.get()
-    password = entry2.get()
+    user = entry0.get()
+    password = entry1.get()
     try:
         pl.login(user, password)
         window.destroy()
@@ -58,59 +64,118 @@ def aboutus():
     import AboutUs
 
 
-logo = Image.open('logo.png')
-test = ImageTk.PhotoImage(logo)
+background_img = PhotoImage(file=f"LoginImages/background.png")
+background = canvas.create_image(
+    336.0, 232.0,
+    image=background_img)
 
-label0 = Label(image=test)
-label0.image = test
-label0.grid(row=0, columnspan=2)
+entry0_img = PhotoImage(file=f"LoginImages/img_textBox0.png")
+entry0_bg = canvas.create_image(
+    564.0, 160.5,
+    image=entry0_img)
 
-label1 = Label(window, text="Username", font=("Raleway", 15))
-label1.grid(row=1, column=0)
+entry0 = Entry(
+    bd=0,
+    bg="#dadada",
+    highlightthickness=0)
 
-label2 = Label(window, text="Password", font=("Raleway", 15))
-label2.grid(row=2, column=0)
+entry0.place(
+    x=464.5, y=142,
+    width=199.0,
+    height=35)
 
-username_text = StringVar()
-entry1 = Entry(window, textvariable=username_text)
-entry1.grid(row=1, column=1)
+entry1_img = PhotoImage(file=f"LoginImages/img_textBox1.png")
+entry1_bg = canvas.create_image(
+    564.0, 253.5,
+    image=entry1_img)
 
-password_text = StringVar()
-entry2 = Entry(window, textvariable=password_text)
-entry2.grid(row=2, column=1)
+entry1 = Entry(
+    bd=0,
+    bg="#dadada",
+    highlightthickness=0)
 
-# Login button
-button1 = Button(window, text="Login", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=login)
-button1.grid(row=3, column=0)
+entry1.place(
+    x=464.5, y=235,
+    width=199.0,
+    height=35)
 
-# Signup button
-button2 = Button(window, text="Signup", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=signup)
-button2.grid(row=4, column=0)
+img0 = PhotoImage(file=f"LoginImages/img0.png")
+b0 = Button(
+    image=img0,
+    borderwidth=0,
+    highlightthickness=0,
+    command=login,
+    relief="flat")
 
-button3 = Button(window, text="Google Login", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=google)
-button3.grid(row=3, column=1)
+b0.place(
+    x=446, y=305,
+    width=106,
+    height=41)
 
-button4 = Button(window, text="Facebook Login", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=facebook)
-button4.grid(row=4, column=1)
+img1 = PhotoImage(file=f"LoginImages/img1.png")
+b1 = Button(
+    image=img1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=google,
+    relief="flat")
 
-# Clear All button
-button5 = Button(window, text="Clear All", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=clear)
-button5.grid(row=5, column=0)
+b1.place(
+    x=445, y=351,
+    width=106,
+    height=41)
 
-# About Us button
-button7 = Button(window, text="About Us", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=aboutus)
-button7.grid(row=5, column=1)
+img2 = PhotoImage(file=f"LoginImages/img2.png")
+b2 = Button(
+    image=img2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=clear,
+    relief="flat")
 
-# Exit button
-button6 = Button(window, text="Exit", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=lambda: window.destroy())
-button6.grid(row=6, column=0)
+b2.place(
+    x=446, y=402,
+    width=106,
+    height=41)
 
+img3 = PhotoImage(file=f"LoginImages/img3.png")
+b3 = Button(
+    image=img3,
+    borderwidth=0,
+    highlightthickness=0,
+    command=signup,
+    relief="flat")
 
+b3.place(
+    x=585, y=305,
+    width=106,
+    height=41)
+
+img4 = PhotoImage(file=f"LoginImages/img4.png")
+b4 = Button(
+    image=img4,
+    borderwidth=0,
+    highlightthickness=0,
+    command=facebook,
+    relief="flat")
+
+b4.place(
+    x=585, y=354,
+    width=106,
+    height=41)
+
+img5 = PhotoImage(file=f"LoginImages/img5.png")
+b5 = Button(
+    image=img5,
+    borderwidth=0,
+    highlightthickness=0,
+    command=aboutus,
+    relief="flat")
+
+b5.place(
+    x=585, y=403,
+    width=106,
+    height=41)
+
+window.resizable(False, False)
 window.mainloop()
