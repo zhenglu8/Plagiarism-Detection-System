@@ -1,38 +1,72 @@
 from tkinter import *
-from tkinter import ttk
-import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
-
-window = Tk()
-window.title("Plagiarism Detection System")
-canvas = Canvas(window, width=600, height=300)
-canvas.grid(columnspan=1, rowspan=4)
 
 
 def back():
     window.destroy()
     import LogIn
+    # login.aboutus()
 
 
-label1 = Label(window, text="Plagiarism Detection System",
-               font=("Raleway", 25))
-label1.grid(row=0, column=0)
+window = Tk()
 
-label2 = Label(window, text="Feedback", font="Raleway")
-label2.grid(row=1, column=0)
+window.geometry("753x464")
+window.configure(bg="#ffffff")
+window.title("Plagiarism Detection System")
+canvas = Canvas(
+    window,
+    bg="#ffffff",
+    height=464,
+    width=753,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge")
+canvas.place(x=0, y=0)
 
-st = ScrolledText(window, width=50, height=10)
-st.grid(row=2, column=0)
+background_img = PhotoImage(file=f"AboutusImages/background.png")
+background = canvas.create_image(
+    369.5, 232.0,
+    image=background_img)
 
-# Submit button
-button1 = Button(window, text="Submit", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white")
-button1.grid(row=3, column=0)
+img0 = PhotoImage(file=f"AboutusImages/img0.png")
+b0 = Button(
+    image=img0,
+    borderwidth=0,
+    highlightthickness=0,
+    command=back,
+    relief="flat")
 
-# Exit button
-button2 = Button(window, text="Back", height=2, width=12,
-                 font="Raleway", bg="#20bebe", fg="white", command=back)
-button2.grid(row=4, column=0)
+b0.place(
+    x=443, y=331,
+    width=106,
+    height=41)
 
+img1 = PhotoImage(file=f"AboutusImages/img1.png")
+b1 = Button(
+    image=img1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=back,
+    relief="flat")
 
+b1.place(
+    x=583, y=331,
+    width=106,
+    height=41)
+
+entry0_img = PhotoImage(file=f"AboutusImages/img_textBox0.png")
+entry0_bg = canvas.create_image(
+    562.5, 211.5,
+    image=entry0_img)
+
+entry0 = Entry(
+    bd=0,
+    bg="#dadada",
+    highlightthickness=0)
+
+entry0.place(
+    x=396, y=102,
+    width=333,
+    height=217)
+
+window.resizable(False, False)
 window.mainloop()
