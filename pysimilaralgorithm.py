@@ -96,11 +96,14 @@ class pyrecheck:
     ## Compare files using pysimilar method compare ##
     def __compare_files(self):
         try:
+
             curr_check = compare(
                 self.file_check, self.file_against, isfile=True)
             print(curr_check)
+
             if(curr_check > self.comparison_latest):
                 self.comparison_latest = curr_check
+
         except Exception as e:
             print(e)
 

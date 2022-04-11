@@ -8,6 +8,7 @@ import pysimilaralgorithm as pa
 import os
 import pyrebase
 from PIL import Image, ImageTk
+from matplotlib import pyplot as plt
 
 firebaseConfig = {
     'apiKey': "AIzaSyAEp8_HarY6xSVZEgiXiko67ntgVuCXmwg",
@@ -26,10 +27,21 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 storage = firebase.storage()
 
+
 window = Tk()
+
+window.geometry("753x464")
+window.configure(bg="#ffffff")
 window.title("Plagiarism Detection System")
-canvas = Canvas(window, width=1000, height=400)
-canvas.grid(columnspan=2, rowspan=4)
+canvas = Canvas(
+    window,
+    bg="#ffffff",
+    height=464,
+    width=753,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge")
+canvas.place(x=0, y=0)
 
 label1 = Label(window)
 label2 = Label(window)
@@ -89,8 +101,14 @@ def upload():
         data = {"url": url}
         db.child("documents").push(data)
 
+        showinfo(
+            title='Uploaded File',
+            message="The " + file.name + " is successfully uploaded"
+        )
+
 
 def compare():
+
     checking = pa.pyrecheck('docs/selected_file.txt', pl.firebaseConfig)
 
     checking.connect()
@@ -99,7 +117,8 @@ def compare():
     checking.connect_database()
 
     checking.compare_against_files()
-    print(checking.return_results())
+
+    print('result is ' + str(checking.return_results()))
 
     if checking.return_results() >= 0.75:
         showwarning(
@@ -124,31 +143,79 @@ def exit():
     window.destroy()
 
 
-logo = Image.open('logo.png')
-test = ImageTk.PhotoImage(logo)
+def chart():
+    '''
+    plt.style.use("fivethirtyeight")
 
-label0 = Label(image=test)
-label0.image = test
-label0.grid(row=0, columnspan=2)
+    y = [100, 200, 300, 400, 500]
+    plt.bar(x, y, color="#444444", label="All Devs")
+    plt.legend()
 
-# Select Document#1 button
-button1 = Button(window, text="Select Document", height=2, width=20,
-                 font="Raleway", bg="#20bebe", fg="white", command=browsefiles)
-button1.grid(row=1, column=0)
+    plt.title("Similarity Score")
+    plt.xlabel("Document Names")
+    plt.ylabel("Scores")
 
-# Select Document#2 button
-button2 = Button(window, text="Upload Document", height=2, width=20,
-                 font="Raleway", bg="#20bebe", fg="white", command=upload)
-button2.grid(row=3, column=0)
+    plt.tight_layout()
+    plt.show()
+    '''
 
-# Compare button
-button3 = Button(window, text="Compare", height=2, width=20,
-                 font="Raleway", bg="#20bebe", fg="white", command=compare)
-button3.grid(row=1, column=1)
 
-# Exit button
-button4 = Button(window, text="Exit", height=2, width=20,
-                 font="Raleway", bg="#20bebe", fg="white", command=exit)
-button4.grid(row=3, column=1)
+background_img = PhotoImage(file=f"MainImages/background.png")
+background = canvas.create_image(
+    364.5, 232.0,
+    image=background_img)
 
+img0 = PhotoImage(file=f"MainImages/img0.png")
+b0 = Button(
+    image=img0,
+    borderwidth=0,
+    highlightthickness=0,
+    command=browsefiles,
+    relief="flat")
+
+b0.place(
+    x=442, y=232,
+    width=106,
+    height=41)
+
+img1 = PhotoImage(file=f"MainImages/img1.png")
+b1 = Button(
+    image=img1,
+    borderwidth=0,
+    highlightthickness=0,
+    command=upload,
+    relief="flat")
+
+b1.place(
+    x=442, y=314,
+    width=106,
+    height=41)
+
+img2 = PhotoImage(file=f"MainImages/img2.png")
+b2 = Button(
+    image=img2,
+    borderwidth=0,
+    highlightthickness=0,
+    command=compare,
+    relief="flat")
+
+b2.place(
+    x=580, y=232,
+    width=106,
+    height=41)
+
+img3 = PhotoImage(file=f"MainImages/img3.png")
+b3 = Button(
+    image=img3,
+    borderwidth=0,
+    highlightthickness=0,
+    command=exit,
+    relief="flat")
+
+b3.place(
+    x=580, y=314,
+    width=106,
+    height=41)
+
+window.resizable(False, False)
 window.mainloop()

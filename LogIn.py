@@ -1,6 +1,7 @@
 from tkinter import *
 import pyrelog as pl
 import webbrowser
+from tkinter.messagebox import showinfo, showwarning
 
 
 window = Tk()
@@ -36,6 +37,11 @@ def login():
     except:
         # switch with tkinter display of failed login
         print("login failed?")
+
+        showwarning(
+            title='Warning',
+            message="Incorrect username or password! Please try again"
+        )
 
 # Define a signup function to move to signup page
 
